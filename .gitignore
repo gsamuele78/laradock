@@ -2,6 +2,7 @@
 /logs
 /data
 .env
+.env.erbari
 /.project
 .docker-sync
 /jenkins/jenkins_home
