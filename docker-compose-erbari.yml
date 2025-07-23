@@ -14,8 +14,8 @@ volumes:
     driver: ${VOLUMES_DRIVER}
   mariadb:
     driver: ${VOLUMES_DRIVER}
-  docker-in-docker:
-    driver: ${VOLUMES_DRIVER}
+      #docker-in-docker:
+      #driver: ${VOLUMES_DRIVER}
   react:
     driver: ${VOLUMES_DRIVER}
 
@@ -42,7 +42,7 @@ services:
           - XDEBUG_PORT=${WORKSPACE_XDEBUG_PORT}
           - INSTALL_PCOV=${WORKSPACE_INSTALL_PCOV}
           - INSTALL_PHPDBG=${WORKSPACE_INSTALL_PHPDBG}
-          - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
+            #- INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
           - INSTALL_SSH2=${WORKSPACE_INSTALL_SSH2}
           - INSTALL_SOAP=${WORKSPACE_INSTALL_SOAP}
           - INSTALL_XSL=${WORKSPACE_INSTALL_XSL}
@@ -124,8 +124,8 @@ services:
           - AST_VERSION=${WORKSPACE_AST_VERSION}
           - IMAGEMAGICK_VERSION=${WORKSPACE_IMAGEMAGICK_VERSION}
           - TZ=${WORKSPACE_TIMEZONE}
-          - BLACKFIRE_CLIENT_ID=${BLACKFIRE_CLIENT_ID}
-          - BLACKFIRE_CLIENT_TOKEN=${BLACKFIRE_CLIENT_TOKEN}
+            #- BLACKFIRE_CLIENT_ID=${BLACKFIRE_CLIENT_ID}
+            #- BLACKFIRE_CLIENT_TOKEN=${BLACKFIRE_CLIENT_TOKEN}
           - INSTALL_POWERLINE=${WORKSPACE_INSTALL_POWERLINE}
           - INSTALL_SUPERVISOR=${WORKSPACE_INSTALL_SUPERVISOR}
           - INSTALL_FFMPEG=${WORKSPACE_INSTALL_FFMPEG}
@@ -147,19 +147,19 @@ services:
           - INSTALL_POPPLER_UTILS=${WORKSPACE_INSTALL_POPPLER_UTILS}
           - INSTALL_JDK=${WORKSPACE_INSTALL_JDK}
           - INSTALL_GITHUB_CLI=${WORKSPACE_INSTALL_GITHUB_CLI}
-          - ORACLE_INSTANT_CLIENT_MIRROR=${ORACLE_INSTANT_CLIENT_MIRROR}
-          - ORACLE_INSTANT_CLIENT_ARCH=${ORACLE_INSTANT_CLIENT_ARCH}
-          - ORACLE_INSTANT_CLIENT_MAJOR=${ORACLE_INSTANT_CLIENT_MAJOR}
-          - ORACLE_INSTANT_CLIENT_MINOR=${ORACLE_INSTANT_CLIENT_MINOR}
+            #- ORACLE_INSTANT_CLIENT_MIRROR=${ORACLE_INSTANT_CLIENT_MIRROR}
+            #- ORACLE_INSTANT_CLIENT_ARCH=${ORACLE_INSTANT_CLIENT_ARCH}
+            #- ORACLE_INSTANT_CLIENT_MAJOR=${ORACLE_INSTANT_CLIENT_MAJOR}
+            #- ORACLE_INSTANT_CLIENT_MINOR=${ORACLE_INSTANT_CLIENT_MINOR}
           - http_proxy
           - https_proxy
           - no_proxy
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
-        - docker-in-docker:/certs/client
+          #- docker-in-docker:/certs/client
         - ./php-worker/supervisord.d:/etc/supervisord.d
-      extra_hosts:
-        - "dockerhost:${DOCKER_HOST_IP}"
+          #extra_hosts:
+          #- "dockerhost:${DOCKER_HOST_IP}"
       ports:
         - "${WORKSPACE_SSH_PORT}:22"
         - "${WORKSPACE_BROWSERSYNC_HOST_PORT}:3000"
@@ -171,16 +171,16 @@ services:
       tty: true
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
-        - DOCKER_HOST=tcp://docker-in-docker:2376
-        - DOCKER_TLS_VERIFY=1
-        - DOCKER_TLS_CERTDIR=/certs
-        - DOCKER_CERT_PATH=/certs/client
+          #- DOCKER_HOST=tcp://docker-in-docker:2376
+          #- DOCKER_TLS_VERIFY=1
+          #- DOCKER_TLS_CERTDIR=/certs
+          #- DOCKER_CERT_PATH=/certs/client
         - CHOKIDAR_USEPOLLING=true
       networks:
         - frontend
         - backend
-      links:
-        - docker-in-docker
+          #links:
+          #- docker-in-docker
 
 ### PHP-FPM ##############################################
     php-fpm:
@@ -200,7 +200,7 @@ services:
           - XDEBUG_PORT=${PHP_FPM_XDEBUG_PORT}
           - INSTALL_PCOV=${PHP_FPM_INSTALL_PCOV}
           - INSTALL_PHPDBG=${PHP_FPM_INSTALL_PHPDBG}
-          - INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
+            #- INSTALL_BLACKFIRE=${INSTALL_BLACKFIRE}
           - INSTALL_SSH2=${PHP_FPM_INSTALL_SSH2}
           - INSTALL_SOAP=${PHP_FPM_INSTALL_SOAP}
           - INSTALL_XSL=${PHP_FPM_INSTALL_XSL}
@@ -272,27 +272,27 @@ services:
           - INSTALL_DOCKER_CLIENT=${PHP_FPM_INSTALL_DOCKER_CLIENT}
           - INSTALL_DNSUTILS=${PHP_FPM_INSTALL_DNSUTILS}
           - INSTALL_POPPLER_UTILS=${PHP_FPM_INSTALL_POPPLER_UTILS}
-          - ORACLE_INSTANT_CLIENT_MIRROR=${ORACLE_INSTANT_CLIENT_MIRROR}
-          - ORACLE_INSTANT_CLIENT_ARCH=${ORACLE_INSTANT_CLIENT_ARCH}
-          - ORACLE_INSTANT_CLIENT_MAJOR=${ORACLE_INSTANT_CLIENT_MAJOR}
-          - ORACLE_INSTANT_CLIENT_MINOR=${ORACLE_INSTANT_CLIENT_MINOR}
+            #- ORACLE_INSTANT_CLIENT_MIRROR=${ORACLE_INSTANT_CLIENT_MIRROR}
+            #- ORACLE_INSTANT_CLIENT_ARCH=${ORACLE_INSTANT_CLIENT_ARCH}
+            #- ORACLE_INSTANT_CLIENT_MAJOR=${ORACLE_INSTANT_CLIENT_MAJOR}
+            #- ORACLE_INSTANT_CLIENT_MINOR=${ORACLE_INSTANT_CLIENT_MINOR}
           - http_proxy
           - https_proxy
           - no_proxy
       volumes:
         - ./php-fpm/php${PHP_VERSION}.ini:/usr/local/etc/php/php.ini
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
-        - docker-in-docker:/certs/client
+          #- docker-in-docker:/certs/client
       expose:
         - "9000"
-      extra_hosts:
-        - "dockerhost:${DOCKER_HOST_IP}"
+          #extra_hosts:
+          #- "dockerhost:${DOCKER_HOST_IP}"
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
-        - DOCKER_HOST=tcp://docker-in-docker:2376
-        - DOCKER_TLS_VERIFY=1
-        - DOCKER_TLS_CERTDIR=/certs
-        - DOCKER_CERT_PATH=/certs/client
+          #- DOCKER_HOST=tcp://docker-in-docker:2376
+          #- DOCKER_TLS_VERIFY=1
+          #- DOCKER_TLS_CERTDIR=/certs
+          #- DOCKER_CERT_PATH=/certs/client
         - FAKETIME=${PHP_FPM_FAKETIME}
         - TZ=${WORKSPACE_TIMEZONE}
 
@@ -300,8 +300,8 @@ services:
         - workspace
       networks:
         - backend
-      links:
-        - docker-in-docker
+          #links:
+          #- docker-in-docker
 
 ### NGINX Server #########################################
     nginx:
@@ -323,14 +323,14 @@ services:
       ports:
         - "${NGINX_HOST_HTTP_PORT}:80"
         - "${NGINX_HOST_HTTPS_PORT}:443"
-        - "${VARNISH_BACKEND_PORT}:81"
+          #- "${VARNISH_BACKEND_PORT}:81"
       depends_on:
         - php-fpm
       networks:
         - frontend
         - backend
-      extra_hosts:
-        - "host.docker.internal:host-gateway"  
+          #extra_hosts:
+          #- "host.docker.internal:host-gateway"  
 
 ### MySQL ################################################
     mysql:
@@ -393,26 +393,26 @@ services:
         - POSTGRES_DB=${POSTGRES_DB}
         - POSTGRES_USER=${POSTGRES_USER}
         - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-        - GITLAB_POSTGRES_INIT=${GITLAB_POSTGRES_INIT}
-        - GITLAB_POSTGRES_USER=${GITLAB_POSTGRES_USER}
-        - GITLAB_POSTGRES_PASSWORD=${GITLAB_POSTGRES_PASSWORD}
-        - GITLAB_POSTGRES_DB=${GITLAB_POSTGRES_DB}
+          #- GITLAB_POSTGRES_INIT=${GITLAB_POSTGRES_INIT}
+          #- GITLAB_POSTGRES_USER=${GITLAB_POSTGRES_USER}
+          #- GITLAB_POSTGRES_PASSWORD=${GITLAB_POSTGRES_PASSWORD}
+          #- GITLAB_POSTGRES_DB=${GITLAB_POSTGRES_DB}
         - KEYCLOAK_POSTGRES_INIT=${KEYCLOAK_POSTGRES_INIT}
         - KEYCLOAK_POSTGRES_USER=${KEYCLOAK_POSTGRES_USER}
         - KEYCLOAK_POSTGRES_PASSWORD=${KEYCLOAK_POSTGRES_PASSWORD}
         - KEYCLOAK_POSTGRES_DB=${KEYCLOAK_POSTGRES_DB}
-        - JUPYTERHUB_POSTGRES_INIT=${JUPYTERHUB_POSTGRES_INIT}
-        - JUPYTERHUB_POSTGRES_USER=${JUPYTERHUB_POSTGRES_USER}
-        - JUPYTERHUB_POSTGRES_PASSWORD=${JUPYTERHUB_POSTGRES_PASSWORD}
-        - JUPYTERHUB_POSTGRES_DB=${JUPYTERHUB_POSTGRES_DB}
-        - SONARQUBE_POSTGRES_INIT=${SONARQUBE_POSTGRES_INIT}
-        - SONARQUBE_POSTGRES_DB=${SONARQUBE_POSTGRES_DB}
-        - SONARQUBE_POSTGRES_USER=${SONARQUBE_POSTGRES_USER}
-        - SONARQUBE_POSTGRES_PASSWORD=${SONARQUBE_POSTGRES_PASSWORD}
-        - POSTGRES_CONFLUENCE_INIT=${CONFLUENCE_POSTGRES_INIT}
-        - POSTGRES_CONFLUENCE_DB=${CONFLUENCE_POSTGRES_DB}
-        - POSTGRES_CONFLUENCE_USER=${CONFLUENCE_POSTGRES_USER}
-        - POSTGRES_CONFLUENCE_PASSWORD=${CONFLUENCE_POSTGRES_PASSWORD}
+          #- JUPYTERHUB_POSTGRES_INIT=${JUPYTERHUB_POSTGRES_INIT}
+          #- JUPYTERHUB_POSTGRES_USER=${JUPYTERHUB_POSTGRES_USER}
+          #- JUPYTERHUB_POSTGRES_PASSWORD=${JUPYTERHUB_POSTGRES_PASSWORD}
+          #- JUPYTERHUB_POSTGRES_DB=${JUPYTERHUB_POSTGRES_DB}
+          #- SONARQUBE_POSTGRES_INIT=${SONARQUBE_POSTGRES_INIT}
+          #- SONARQUBE_POSTGRES_DB=${SONARQUBE_POSTGRES_DB}
+          #- SONARQUBE_POSTGRES_USER=${SONARQUBE_POSTGRES_USER}
+          #- SONARQUBE_POSTGRES_PASSWORD=${SONARQUBE_POSTGRES_PASSWORD}
+          #- POSTGRES_CONFLUENCE_INIT=${CONFLUENCE_POSTGRES_INIT}
+          #- POSTGRES_CONFLUENCE_DB=${CONFLUENCE_POSTGRES_DB}
+          #- POSTGRES_CONFLUENCE_USER=${CONFLUENCE_POSTGRES_USER}
+          #- POSTGRES_CONFLUENCE_PASSWORD=${CONFLUENCE_POSTGRES_PASSWORD}
       networks:
         - backend
 ### pgbackups PostgreSQL ###########################################
@@ -549,9 +549,9 @@ services:
         - "${HAPROXY_HOST_HTTP_PORT}:8085"
       volumes:
         - /var/run/docker.sock:/var/run/docker.sock
-      links:
-        - proxy
-        - proxy2
+          #links:
+          #- proxy
+          #- proxy2
 
 ### Laravel Echo Server #######################################
     laravel-echo-server:
@@ -576,8 +576,12 @@ services:
       build: ./thumbor
       volumes:
         #- ${DATA_PATH_HOST}/thumbor/data:/data
-        - /opt/docker/storage:/data
-        - ${DATA_PATH_HOST}/thumbor/data:/logs
+        #- /opt/docker/storage:/data
+        #- /mnt/nfs/erbari/thumbor/data:/data
+        - ${THUMBOR_PATH_HOST}:/data
+        #- ${DATA_PATH_HOST}/thumbor/data:/logs
+        #- ./logs/thumbor/:/logs
+        - ${THUMBOR_HOST_LOG_PATH}:/logs
       ports:
         - "127.0.0.1:${THUMBOR_PORT}:8000"
       environment:
@@ -691,21 +695,6 @@ services:
         #- frontend
         - backend
 
-
-### Docker-in-Docker ################################################
-    docker-in-docker:
-      restart: always
-      image: docker:20.10-dind
-      environment:
-        DOCKER_TLS_SAN: DNS:docker-in-docker
-      privileged: true
-      volumes:
-        - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}
-        - docker-in-docker:/certs/client
-      expose:
-        - 2375
-      networks:
-        - backend
 
 ### REDISWEBUI ################################################
     redis-webui:
