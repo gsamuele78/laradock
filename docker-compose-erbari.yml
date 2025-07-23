@@ -570,6 +570,21 @@ services:
         - frontend
         - backend
 
+### Gnparser #########################################
+    gnparser:
+      #env_file: ./.env
+      image: gnames/gognparser:latest
+      ports:
+        #- "127.0.0.1:4334:4334"
+        - "0.0.0.0:4334:4334"
+      command:
+        - -p 
+        - "4334"
+      tty: true
+      networks:
+        - backend
+
+          
 ### Thumbor #########################################
     thumbor:
       restart: always
